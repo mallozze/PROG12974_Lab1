@@ -1,51 +1,33 @@
 #include<stdio.h>
+#include<string.h> 
+#include<ctype.h>
 #include<stdlib.h>
-#include<string.h>
-#include<math.h>
 
-typedef struct{
-	int id;
-	char name[100];
-	int number;
-}Contact;
-
-void printContact(Contact contact);
-
-FILE *file;
-  
 int main(){
 
-	Contact c1 = {12, "Justin Bieber", 567892233};
-	Contact c2 = {23, "Ryan Gosling", 683579922};
-	Contact c3 = {34, "Donna Strickland", 574687755};
+	char message[99];
 	
-	printContact(c1);
-	printContact(c2);
-	printContact(c3);
+	printf("Enter a line of text below: \n");
+	fgets(message, 99, stdin);
 	
-	file = fopen("contacts.txt", "a");
-	if(file == NULL){
-		printf("Cannot Create or Open File");
-		exit(1);
-	}
-	fprintf(file, "%d\n", c1.id);
-	fprintf(file, "%s\n", c1.name);
-	fprintf(file, "%d\n", c1.number);
-	fprintf(file, "%d\n", c2.id);
-	fprintf(file, "%s\n", c2.name);
-	fprintf(file, "%d\n", c2.number);
-	fprintf(file, "%d\n", c3.id);
-	fprintf(file, "%s\n", c3.name);
-	fprintf(file, "%d\n", c3.number);
+	int spCount = 0;
 	
-	fclose(file);
-	return 0;
-}
+	for(int i = 0; i < (int)(strlen(message))-1; i++){
+		if(isalpha(message[i])!=0){
+			if(message[i] < 97){
+				message[i] += 32;
+			}else{
+				message[i] -= 32;
+			}
+		} else if (isdigit(message[i]) != 0){
+			//does nothing
+		} else {
+			spCount++;
+		}
+	} 
+	
+	puts(message);
+	printf("Number of special characters: %d", spCount);
 
-void printContact(Contact contact){
-	
-	printf("ID: %d\n", contact.id);
-	printf("Name: %s\n", contact.name);
-	printf("Number: %d\n", contact.number); 
-	
+	return 0;
 }
